@@ -4,19 +4,32 @@ import Accordion from './components/Accordion';
 
 const App = () => {
   const [chapters, setChapters] = useState('');
-  const api = 'http://compliance.clonestudiobd.com/api/lawchapters';
+  const [sections, setSections] = useState('');
+  const [isLoading, setLoading] = useState(true);
+  const lawChaptersApi = 'http://compliance.clonestudiobd.com/api/lawchapters';
+
+  const chapterSectionsApi =
+    'http://compliance.clonestudiobd.com/api/chaptersections';
 
   useEffect(() => {
-    fetch(api)
+    fetch(lawChaptersApi)
       .then((response) => response.json())
       .then((json) => setChapters(json))
       .catch((error) => console.error(error));
-  }, []);
 
-  console.log('chapters', chapters);
+    fetch(chapterSectionsApi)
+      .then((response) => response.json())
+      .then((json) => setSections(json))
+      .catch((error) => console.error(error));
+  }, [lawChaptersApi, chapterSectionsApi]);
+
+  console.log('chapters-app', chapters);
+  console.log('sections-app', sections);
   return (
     <View style={styles.container}>
-      <Accordion chapters={chapters} />
+      {chapters && sections ? (
+        <Accordion chapters={chapters} sections={sections} />
+      ) : null}
     </View>
   );
 };

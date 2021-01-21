@@ -3,9 +3,9 @@ import {StyleSheet, Text, View} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: '#A9CCE3',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     paddingVertical: 8,
     paddingHorizontal: 16,
@@ -14,7 +14,9 @@ const styles = StyleSheet.create({
     height: 54,
   },
   name: {
-    fontSize: 16,
+    fontSize: 14,
+    color: 'black',
+    fontWeight: 'bold',
   },
   pointsContainer: {
     borderRadius: 8,
@@ -31,18 +33,12 @@ const ListItem = ({item, isLast}) => {
   const bottomRadius = isLast ? 8 : 0;
   console.log(item);
   return (
-    <View
-      style={[
-        styles.container,
-        {
-          borderBottomLeftRadius: bottomRadius,
-          borderBottomRightRadius: bottomRadius,
-        },
-      ]}>
-      <Text style={styles.name}>{item.name}</Text>
-      <View style={styles.pointsContainer}>
+    <View style={[styles.container]}>
+      <Text style={styles.name}>{item.section_no}.</Text>
+      <Text style={styles.name}>{item.section_title}</Text>
+      {/* <View style={styles.pointsContainer}>
         <Text style={styles.points}>{item.points}</Text>
-      </View>
+      </View> */}
     </View>
   );
 };

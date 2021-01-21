@@ -35,16 +35,30 @@ const styles = StyleSheet.create({
 //   list: List;
 // }
 
-const List = ({listItems}) => {
-  console.log(listItems);
+const List = ({items, sections}) => {
+  console.log('lll', items);
+  console.log('sss', sections);
   const LIST_ITEM_HEIGHT = 54;
   const [open, setOpen] = useState(false);
   const transition = useTransition(open);
-  const height = mix(transition, 0, LIST_ITEM_HEIGHT * listItems.length);
+
+  const sectionsItems =
+    sections && items
+      ? sections
+          .filter((item) => {
+            return item.law_chapter_id === items.id;
+          })
+          .map((item) => item)
+      : null;
+
+  console.log('uuu', sectionsItems);
   const bottomRadius = interpolate(transition, {
     inputRange: [0, 16 / 400],
     outputRange: [8, 0],
   });
+
+  const height = mix(transition, 0, LIST_ITEM_HEIGHT * sectionsItems.length);
+
   return (
     <>
       <TouchableWithoutFeedback onPress={() => setOpen((prev) => !prev)}>
@@ -57,17 +71,19 @@ const List = ({listItems}) => {
             },
           ]}>
           <Chevron transition={transition} />
-          <Text style={styles.title}>Total Points</Text>
+          <Text style={styles.title}>{items.chapter_title}</Text>
         </Animated.View>
       </TouchableWithoutFeedback>
       <Animated.View style={[styles.items, {height}]}>
-        {listItems.map((item, key) => (
-          <ListItem
-            key={key}
-            isLast={key === listItems.length - 1}
-            item={item}
-          />
-        ))}
+        {sectionsItems
+          ? sectionsItems.map((item, key) => (
+              <ListItem
+                key={key}
+                isLast={key === sectionsItems.length - 1}
+                item={item}
+              />
+            ))
+          : null}
       </Animated.View>
     </>
   );
